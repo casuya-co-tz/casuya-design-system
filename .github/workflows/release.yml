@@ -32,7 +32,12 @@ jobs:
       - name: Create Release Pull Request or Publish
         uses: changesets/action@v1
         with:
-          publish: pnpm release
+          publish: |
+            if [ -n "$NPM_TOKEN" ]; then
+              pnpm release
+            else
+              echo "NPM_TOKEN not set, skipping publish"
+            fi
           version: pnpm changeset version
           commit: 'chore(repo): version packages'
           title: 'chore(repo): version packages'
