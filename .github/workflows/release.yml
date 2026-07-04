@@ -29,18 +29,18 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Create Release Pull Request or Publish
-        uses: changesets/action@v1
+      - uses: changesets/action@v1
         with:
-          publish: |
-            if [ -n "$NPM_TOKEN" ]; then
-              pnpm release
-            else
-              echo "NPM_TOKEN not set, skipping publish"
-            fi
           version: pnpm changeset version
           commit: 'chore(repo): version packages'
           title: 'chore(repo): version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to npm
+        if: env.NPM_TOKEN != ''
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+          pnpm release
+        env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
