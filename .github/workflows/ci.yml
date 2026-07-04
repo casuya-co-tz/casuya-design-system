@@ -30,7 +30,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm lint
-      - run: pnpm typecheck
       - run: pnpm test
 
   build:
@@ -49,6 +48,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - run: pnpm typecheck
 
       - uses: actions/upload-pages-artifact@v3
         with:
