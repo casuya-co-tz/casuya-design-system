@@ -49,7 +49,3 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm typecheck
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: apps/docs/storybook-static
