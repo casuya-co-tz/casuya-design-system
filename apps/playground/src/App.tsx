@@ -1,22 +1,22 @@
 import { useState } from 'react';
-import { Button, Input, Text, Heading, Card, Badge, Stack, Divider,
-  IconButton, Spinner } from '@casuya/react';
+import {
+  Button,
+  Input,
+  Text,
+  Heading,
+  Card,
+  Badge,
+  Stack,
+  Divider,
+  IconButton,
+  Spinner,
+} from '@casuya/react';
 import { Icon } from '@casuya/icons';
 import { ThemeProvider, useTheme } from '@casuya/theme';
-import { SkipLink, FocusTrap, VisuallyHidden } from '@casuya/a11y';
-
-function ThemeToggle() {
-  const { mode, toggle } = useTheme();
-  return (
-    <Button variant="outline" size="sm" onClick={toggle}>
-      {mode === 'light' ? '🌙 Dark' : mode === 'dark' ? '☀️ Light' : '🎨 Default'}
-    </Button>
-  );
-}
+import { SkipLink } from '@casuya/a11y';
 
 function AppContent() {
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
   const { mode, setMode } = useTheme();
 
   return (
@@ -25,9 +25,27 @@ function AppContent() {
         <Stack direction="row" align="center" justify="between">
           <Heading level={3}>Casuya Design System</Heading>
           <Stack direction="row" spacing={3} align="center">
-            <Button size="sm" variant={mode === 'light' ? 'primary' : 'ghost'} onClick={() => setMode('light')}>Light</Button>
-            <Button size="sm" variant={mode === 'dark' ? 'primary' : 'ghost'} onClick={() => setMode('dark')}>Dark</Button>
-            <Button size="sm" variant={mode === 'high-contrast' ? 'primary' : 'ghost'} onClick={() => setMode('high-contrast')}>High Contrast</Button>
+            <Button
+              size="sm"
+              variant={mode === 'light' ? 'primary' : 'ghost'}
+              onClick={() => setMode('light')}
+            >
+              Light
+            </Button>
+            <Button
+              size="sm"
+              variant={mode === 'dark' ? 'primary' : 'ghost'}
+              onClick={() => setMode('dark')}
+            >
+              Dark
+            </Button>
+            <Button
+              size="sm"
+              variant={mode === 'high-contrast' ? 'primary' : 'ghost'}
+              onClick={() => setMode('high-contrast')}
+            >
+              High Contrast
+            </Button>
           </Stack>
         </Stack>
       </header>
