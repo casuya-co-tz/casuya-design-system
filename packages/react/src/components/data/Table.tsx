@@ -10,6 +10,7 @@ export interface ThProps extends React.ThHTMLAttributes<HTMLTableHeaderCellEleme
   sortable?: boolean;
   sorted?: 'asc' | 'desc';
   onSort?: () => void;
+  scope?: 'col' | 'row';
 }
 
 const variantStyles = {
@@ -52,12 +53,12 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
 
 Table.displayName = 'Table';
 
-export function Th({ sortable, sorted, onSort, className, children, ...props }: ThProps) {
+export function Th({ sortable, sorted, onSort, scope = 'col', className, children, ...props }: ThProps) {
   const content = (
     <div className="flex items-center gap-1">
       {children}
       {sortable && sorted && (
-        <span className="text-[--casuya-text-tertiary]">
+        <span className="text-[--casuya-text-tertiary]" aria-hidden="true">
           {sorted === 'asc' ? '\u2191' : '\u2193'}
         </span>
       )}
@@ -67,8 +68,13 @@ export function Th({ sortable, sorted, onSort, className, children, ...props }: 
   if (sortable) {
     return (
       <th
+        scope={scope}
         className={cx('select-none cursor-pointer hover:text-[--casuya-text-primary]', className)}
         onClick={onSort}
+        onKeyDown={onSort ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSort(); } } : undefined}
+        tabIndex={0}
+        role="columnheader"
+        aria-sort={sorted === 'asc' ? 'ascending' : sorted === 'desc' ? 'descending' : undefined}
         {...props}
       >
         {content}
@@ -77,7 +83,7 @@ export function Th({ sortable, sorted, onSort, className, children, ...props }: 
   }
 
   return (
-    <th className={className} {...props}>
+    <th scope={scope} className={className} {...props}>
       {content}
     </th>
   );

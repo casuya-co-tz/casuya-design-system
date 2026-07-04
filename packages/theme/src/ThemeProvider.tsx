@@ -44,18 +44,21 @@ export function ThemeProvider({
   });
 
   const setMode = useCallback(
-    (newMode: ThemeMode) => {
-      setModeState(newMode);
-      try {
-        localStorage.setItem(storageKey, newMode);
-      } catch {}
+    (newMode: ThemeMode | ((prev: ThemeMode) => ThemeMode)) => {
+      setModeState((prev) => {
+        const next = typeof newMode === 'function' ? (newMode as (prev: ThemeMode) => ThemeMode)(prev) : newMode;
+        try {
+          localStorage.setItem(storageKey, next);
+        } catch {}
+        return next;
+      });
     },
     [storageKey],
   );
 
   const toggle = useCallback(() => {
-    setModeState((prev: ThemeMode) => (prev === 'light' ? 'dark' : 'light'));
-  }, []);
+    setMode((prev: ThemeMode) => (prev === 'light' ? 'dark' : 'light'));
+  }, [setMode]);
 
   useEffect(() => {
     const root = document.documentElement;

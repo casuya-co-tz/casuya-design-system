@@ -48,7 +48,7 @@ export function Tag({
           type="button"
           onClick={onRemove}
           className="flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity"
-          aria-label="Remove"
+          aria-label={typeof children === 'string' ? `Remove ${children}` : 'Remove'}
         >
           <svg
             width="12"

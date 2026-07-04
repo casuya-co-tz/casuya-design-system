@@ -12,7 +12,7 @@ export function useFocusVisible(): boolean {
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Tab' || event.key === 'ArrowKeys') {
+      if (event.key === 'Tab' || event.key.startsWith('Arrow')) {
         hadKeyboardEvent = true;
       }
     };

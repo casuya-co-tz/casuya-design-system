@@ -1,3 +1,4 @@
+import { useEffect, useId, useRef } from 'react';
 import { forwardRef } from '../../utils/forward-ref';
 import { cx } from '../../utils/cx';
 
@@ -8,14 +9,26 @@ export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputE
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ label, error, className, id, checked, ...props }, ref) => {
-    const checkboxId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+  ({ label, error, indeterminate, className, id, checked, ...props }, ref) => {
+    const autoId = useId();
+    const checkboxId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : `checkbox-${autoId}`);
+    const innerRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+      if (innerRef.current) {
+        innerRef.current.indeterminate = !!indeterminate;
+      }
+    }, [indeterminate]);
 
     return (
       <div className={cx('flex items-start gap-2', className)}>
         <div className="relative flex items-center h-5">
           <input
-            ref={ref}
+            ref={(node) => {
+              (innerRef as React.MutableRefObject<HTMLInputElement | null>).current = node;
+              if (typeof ref === 'function') ref(node);
+              else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
+            }}
             type="checkbox"
             id={checkboxId}
             checked={checked}

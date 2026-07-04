@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { forwardRef } from '../../utils/forward-ref';
 import { cx } from '../../utils/cx';
 
@@ -7,7 +8,8 @@ export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
   ({ label, className, id, ...props }, ref) => {
-    const radioId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+    const autoId = useId();
+    const radioId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : `radio-${autoId}`);
 
     return (
       <div className={cx('flex items-center gap-2', className)}>

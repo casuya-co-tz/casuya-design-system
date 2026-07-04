@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { forwardRef } from '../../utils/forward-ref';
 import { cx } from '../../utils/cx';
 
@@ -10,7 +11,8 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, error, hint, fullWidth = true, className, id, ...props }, ref) => {
-    const textareaId = id || label?.toLowerCase().replace(/\s+/g, '-');
+    const autoId = useId();
+    const textareaId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : `textarea-${autoId}`);
 
     return (
       <div className={cx('flex flex-col gap-1.5', fullWidth && 'w-full', className)}>

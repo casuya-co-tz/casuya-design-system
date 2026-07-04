@@ -21,7 +21,10 @@ const KEY_MAP: Record<string, keyof UseKeyboardNavigationOptions> = {
 
 export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
   const optionsRef = useRef(options);
-  optionsRef.current = options;
+
+  useEffect(() => {
+    optionsRef.current = options;
+  });
 
   useEffect(() => {
     if (options.enabled === false) return;

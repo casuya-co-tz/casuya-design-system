@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { forwardRef } from '../utils/forward-ref';
 import { cx } from '../utils/cx';
 
@@ -10,7 +11,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, hint, fullWidth = true, className, id, ...props }, ref) => {
-    const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
+    const autoId = useId();
+    const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : `input-${autoId}`);
 
     return (
       <div className={cx('flex flex-col gap-1.5', fullWidth && 'w-full', className)}>

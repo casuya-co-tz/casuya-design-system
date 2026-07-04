@@ -4,6 +4,7 @@ export interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
   color?: 'primary' | 'current' | 'white';
   className?: string;
+  label?: string;
 }
 
 const sizeMap = {
@@ -18,7 +19,7 @@ const colorMap = {
   white: 'text-white',
 };
 
-export function Spinner({ size = 'md', color = 'primary', className }: SpinnerProps) {
+export function Spinner({ size = 'md', color = 'primary', className, label = 'Loading' }: SpinnerProps) {
   return (
     <svg
       className={cx('animate-spin', sizeMap[size], colorMap[color], className)}
@@ -26,7 +27,7 @@ export function Spinner({ size = 'md', color = 'primary', className }: SpinnerPr
       fill="none"
       viewBox="0 0 24 24"
       role="status"
-      aria-label="Loading"
+      aria-label={label}
     >
       <circle
         className="opacity-25"

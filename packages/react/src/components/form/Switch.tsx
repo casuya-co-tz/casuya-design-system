@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { forwardRef } from '../../utils/forward-ref';
 import { cx } from '../../utils/cx';
 
@@ -7,7 +8,8 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   ({ label, className, id, checked, ...props }, ref) => {
-    const switchId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
+    const autoId = useId();
+    const switchId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : `switch-${autoId}`);
 
     return (
       <div className={cx('flex items-center gap-3', className)}>

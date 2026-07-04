@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useId } from 'react';
 import { FocusTrap } from '@casuya/a11y';
 import { cx } from '../../utils/cx';
 
@@ -17,6 +17,7 @@ const sizeStyles = {
 };
 
 export function Modal({ open, onClose, title, children, size = 'md' }: ModalProps) {
+  const titleId = useId();
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -42,7 +43,8 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
       className="fixed inset-0 z-[--casuya-z-modal] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label={title}
+      aria-label={title ? undefined : 'Dialog'}
+      aria-labelledby={title ? titleId : undefined}
     >
       <div className="fixed inset-0 bg-[--casuya-surface-overlay]" onClick={onClose} />
       <FocusTrap active={open}>
@@ -55,7 +57,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
         >
           {title && (
             <div className="flex items-center justify-between px-6 py-4 border-b border-[--casuya-border-default]">
-              <h2 className="text-lg font-semibold text-[--casuya-text-primary]">{title}</h2>
+              <h2 id={titleId} className="text-lg font-semibold text-[--casuya-text-primary]">{title}</h2>
               <button
                 type="button"
                 onClick={onClose}

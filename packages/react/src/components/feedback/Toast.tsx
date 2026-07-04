@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { cx } from '../../utils/cx';
 
 export type ToastVariant = 'success' | 'error' | 'info' | 'warning';
@@ -24,13 +24,17 @@ const variantStyles: Record<ToastVariant, string> = {
 
 export function Toast({ toast, onDismiss, duration = 4000 }: ToastProps) {
   const [exiting, setExiting] = useState(false);
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setExiting(true);
-      setTimeout(() => onDismiss(toast.id), 200);
+      exitTimerRef.current = setTimeout(() => onDismiss(toast.id), 200);
     }, duration);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(exitTimerRef.current);
+    };
   }, [toast.id, duration, onDismiss]);
 
   return (

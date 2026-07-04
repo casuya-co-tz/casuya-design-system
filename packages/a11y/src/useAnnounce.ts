@@ -9,7 +9,6 @@ export function useAnnounce() {
     if (!region) {
       region = document.createElement('div');
       region.setAttribute('role', 'status');
-      region.setAttribute('aria-live', priority);
       region.setAttribute('aria-atomic', 'true');
       region.style.position = 'absolute';
       region.style.width = '1px';
@@ -24,6 +23,7 @@ export function useAnnounce() {
       regionRef.current = region;
     }
 
+    region.setAttribute('aria-live', priority);
     region.textContent = '';
     requestAnimationFrame(() => {
       region!.textContent = message;

@@ -7,7 +7,7 @@ export function useClickOutside<T extends HTMLElement>(
 
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
-      if (!ref.current || ref.current.contains(event.target as Node)) return;
+      if (!ref.current || !(event.target instanceof Node) || ref.current.contains(event.target)) return;
       handler(event);
     };
 

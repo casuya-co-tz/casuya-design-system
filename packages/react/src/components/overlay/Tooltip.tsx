@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 
@@ -18,16 +18,20 @@ const positionStyles: Record<string, string> = {
 
 export function Tooltip({ content, children, position = 'top', delay = 300 }: TooltipProps) {
   const [visible, setVisible] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(
-    undefined as unknown as ReturnType<typeof setTimeout>,
-  );
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   const show = useCallback(() => {
     timeoutRef.current = setTimeout(() => setVisible(true), delay);
   }, [delay]);
 
   const hide = useCallback(() => {
-    clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setVisible(false);
   }, []);
 

@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { forwardRef } from '../../utils/forward-ref';
 import { cx } from '../../utils/cx';
 
@@ -24,7 +25,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     { label, error, hint, options, placeholder, fullWidth = true, className, id, ...props },
     ref,
   ) => {
-    const selectId = id || label?.toLowerCase().replace(/\s+/g, '-');
+    const autoId = useId();
+    const selectId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : `select-${autoId}`);
 
     return (
       <div className={cx('flex flex-col gap-1.5', fullWidth && 'w-full', className)}>

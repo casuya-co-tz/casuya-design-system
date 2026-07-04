@@ -35,7 +35,7 @@ export function ProgressBar({
     <div className={cx('flex items-center gap-3', className)}>
       <div
         role="progressbar"
-        aria-valuenow={value}
+        aria-valuenow={Math.min(Math.max(value, 0), max)}
         aria-valuemin={0}
         aria-valuemax={max}
         className={cx(

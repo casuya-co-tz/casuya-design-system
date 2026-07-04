@@ -64,66 +64,36 @@ const gapMap: Record<string, string> = {
   '10': 'gap-[--casuya-spacing-10]',
 };
 
+const allCols: Record<string, string> = {
+  1: 'grid-cols-1', 2: 'grid-cols-2', 3: 'grid-cols-3', 4: 'grid-cols-4',
+  5: 'grid-cols-5', 6: 'grid-cols-6', 7: 'grid-cols-7', 8: 'grid-cols-8',
+  9: 'grid-cols-9', 10: 'grid-cols-10', 11: 'grid-cols-11', 12: 'grid-cols-12',
+};
+
+const allSpans: Record<string, string> = {
+  1: 'col-span-1', 2: 'col-span-2', 3: 'col-span-3', 4: 'col-span-4',
+  5: 'col-span-5', 6: 'col-span-6', 7: 'col-span-7', 8: 'col-span-8',
+  9: 'col-span-9', 10: 'col-span-10', 11: 'col-span-11', 12: 'col-span-12',
+  full: 'col-span-full',
+};
+
+function buildBreakpointMap(prefix: string, mapping: Record<string, string>): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(mapping).map(([key, val]) => [key, val.replace(/^(col-span-|grid-cols-)/, `${prefix}:$&`)])
+  );
+}
+
 const breakpointColMap: Record<string, Record<string, string>> = {
-  sm: {
-    1: 'sm:grid-cols-1',
-    2: 'sm:grid-cols-2',
-    3: 'sm:grid-cols-3',
-    4: 'sm:grid-cols-4',
-    5: 'sm:grid-cols-5',
-    6: 'sm:grid-cols-6',
-  },
-  md: {
-    1: 'md:grid-cols-1',
-    2: 'md:grid-cols-2',
-    3: 'md:grid-cols-3',
-    4: 'md:grid-cols-4',
-    5: 'md:grid-cols-5',
-    6: 'md:grid-cols-6',
-  },
-  lg: {
-    1: 'lg:grid-cols-1',
-    2: 'lg:grid-cols-2',
-    3: 'lg:grid-cols-3',
-    4: 'lg:grid-cols-4',
-    5: 'lg:grid-cols-5',
-    6: 'lg:grid-cols-6',
-  },
-  xl: {
-    1: 'xl:grid-cols-1',
-    2: 'xl:grid-cols-2',
-    3: 'xl:grid-cols-3',
-    4: 'xl:grid-cols-4',
-    5: 'xl:grid-cols-5',
-    6: 'xl:grid-cols-6',
-  },
+  sm: buildBreakpointMap('sm', allCols),
+  md: buildBreakpointMap('md', allCols),
+  lg: buildBreakpointMap('lg', allCols),
+  xl: buildBreakpointMap('xl', allCols),
 };
 
 const breakpointSpanMap: Record<string, Record<string, string>> = {
-  sm: {
-    1: 'sm:col-span-1',
-    2: 'sm:col-span-2',
-    3: 'sm:col-span-3',
-    4: 'sm:col-span-4',
-    6: 'sm:col-span-6',
-    full: 'sm:col-span-full',
-  },
-  md: {
-    1: 'md:col-span-1',
-    2: 'md:col-span-2',
-    3: 'md:col-span-3',
-    4: 'md:col-span-4',
-    6: 'md:col-span-6',
-    full: 'md:col-span-full',
-  },
-  lg: {
-    1: 'lg:col-span-1',
-    2: 'lg:col-span-2',
-    3: 'lg:col-span-3',
-    4: 'lg:col-span-4',
-    6: 'lg:col-span-6',
-    full: 'lg:col-span-full',
-  },
+  sm: buildBreakpointMap('sm', allSpans),
+  md: buildBreakpointMap('md', allSpans),
+  lg: buildBreakpointMap('lg', allSpans),
 };
 
 export const Grid = forwardRef<HTMLDivElement, GridProps>(

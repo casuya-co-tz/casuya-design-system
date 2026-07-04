@@ -1,7 +1,7 @@
 import { forwardRef } from '../utils/forward-ref';
 import { cx } from '../utils/cx';
 
-export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
+export interface DividerProps extends React.HTMLAttributes<HTMLElement> {
   orientation?: 'horizontal' | 'vertical';
   color?: 'default' | 'subtle';
 }
@@ -16,11 +16,13 @@ const colorStyles = {
   subtle: 'border-[--casuya-neutral-100]',
 };
 
-export const Divider = forwardRef<HTMLHRElement, DividerProps>(
+export const Divider = forwardRef<HTMLElement, DividerProps>(
   ({ orientation = 'horizontal', color = 'default', className, ...props }, ref) => {
+    const Tag = orientation === 'vertical' ? 'div' : 'hr';
     return (
-      <hr
-        ref={ref}
+      <Tag
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ref={ref as any}
         className={cx(
           'border-0',
           orientationStyles[orientation],
@@ -28,7 +30,7 @@ export const Divider = forwardRef<HTMLHRElement, DividerProps>(
           className,
         )}
         role="separator"
-        aria-orientation={orientation === 'horizontal' ? undefined : 'vertical'}
+        aria-orientation={orientation}
         {...props}
       />
     );
